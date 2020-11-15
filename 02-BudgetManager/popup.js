@@ -14,11 +14,11 @@ window.onload = function(){
                 newTotal += parseInt(budget.total);
             }
 
-            var amount = document.getElementById('amount').value;
+            var amount = document.getElementById('amount');
             if (amount){
-                newTotal += parseInt(amount);
+                newTotal += parseInt(amount.value);
             }
-
+            console.log(amount);
             chrome.storage.sync.set({'total': newTotal}, function(){               
                 if (amount && newTotal >= budget.limit){
                     var notifOptions = {
