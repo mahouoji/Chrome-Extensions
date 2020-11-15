@@ -1,18 +1,20 @@
-$(function(){
+window.onload = function(){
+    var total = document.getElementById('total');
+    var limit = document.getElementById('limit');
 
     chrome.storage.sync.get(['total','limit'],function(budget){
-        $('#total').text(budget.total);
-        $('#limit').text(budget.limit);
+        total.textContent = budget.total;
+        limit.textContent = budget.limit;
     });
 
-    $('#spendAmount').click(function(){
+    document.getElementById('spendAmount').addEventListener('click', function(){
         chrome.storage.sync.get(['total', 'limit'],function(budget){
             var newTotal = 0;
             if (budget.total){
                 newTotal += parseInt(budget.total);
             }
 
-            var amount = $('#amount').val();
+            var amount = document.getElementById('amount').value;
             if (amount){
                 newTotal += parseInt(amount);
             }
@@ -24,16 +26,12 @@ $(function(){
                         iconUrl: "icon48.png",
                         title: "Limit reached!",
                         message: "Uh oh, look's like you've reached your alloted limit."
-                };
-                chrome.notifications.create('limitNotif', notifOptions);
-
-            }
+                    };
+                    chrome.notifications.create('limitNotif', notifOptions);
+                }
             });
-            $('#total').text(newTotal);
-            $('#amount').val('');
-
-           
-
+            total.textContent = newTotal;
+            amount.value = '';
         });
     });
-});
+};
